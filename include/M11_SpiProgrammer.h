@@ -35,8 +35,8 @@ encountered \n",__FILE__, __LINE__, __FUNCTION__);exit(1);}else{;}};
 #define OP_WRITERCW                 4
 #define OP_READRCW                  5
 #define OP_SECTORERASE              6
-
-#define DATA_SIZE                   (4096*1024)
+#define OP_CHECKFLASH               7
+#define DATA_SIZE                   FLASH_SIZE
 
 #define FTDI_BLOCK_SIZE      8192
 
@@ -44,7 +44,7 @@ encountered \n",__FILE__, __LINE__, __FUNCTION__);exit(1);}else{;}};
 typedef struct file_struct {
     char  file_name[1024];
     int   file_len;
-    int   sector_num;
+    int   blocks64k_num;
     int   address;
     int   max_len;
 } spi_files;

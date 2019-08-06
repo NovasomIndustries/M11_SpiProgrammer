@@ -6,7 +6,7 @@
 #include <string.h>
 #include "ftd2xx.h"
 #include "libMPSSE_spi.h"
-#include "MT25QU256ABA.h"
+#include "W25Q128JV.h"
 #include "M11_SpiProgrammer.h"
 
 extern  FT_HANDLE ftHandle;
@@ -62,6 +62,15 @@ unsigned char loc_tx_buff[2];
     return (0);
 }
 
+unsigned char flash_single_command(unsigned char command)
+{
+unsigned int sizeTransfered;
+unsigned char loc_tx_buff[2];
+    loc_tx_buff[0] = command;
+    if (SPI_Write(ftHandle, loc_tx_buff, 1, (uint32 *)&sizeTransfered,SPI_TRANSFER_OPTIONS_SIZE_IN_BYTES|SPI_TRANSFER_OPTIONS_CHIPSELECT_ENABLE | SPI_TRANSFER_OPTIONS_CHIPSELECT_DISABLE) )
+        return (1);//ko
+    return (0);
+}
 unsigned char flash_WRAR(unsigned int addr_reg_to_read, unsigned char data_to_write)
 {
 unsigned char loc_tx_buff[10];
@@ -150,6 +159,11 @@ unsigned int sizeTransfered = 0;
 void flash_getId(void)
 {
 int i;
+/*
+    flash_single_command(CMD_RSTEN);
+    flash_single_command(CMD_RESET);
+    flash_single_command(CMD_RELEASE_PWDWN);
+    */
     flash_IDR(read_buf);
     if ( read_buf[0] == 0x20)
         printf("Manufacturer : Micron\n");
@@ -158,7 +172,7 @@ int i;
         printf("Wrong flash type\n");
         printf("Found :\n");
         for (i=0;i<3;i++)
-            printf("%d : 0x%02x\n",i,read_buf[0]);
+            printf("%d : 0x%02x\n",i,read_buf[i]);
         ftdi_close(1);
     }
     if ( read_buf[1] == 0xba)
@@ -179,6 +193,7 @@ int i;
 
 void flash_setup(void)
 {
+/*
 unsigned char rd_special;
 
     flash_enter4bam();
@@ -203,6 +218,8 @@ unsigned char rd_special;
         flash_RDAR(PPBL,&rd_special);
         printf("PPBL 0x%02x\n",rd_special);
     }
+    */
+
 }
 
 unsigned char flash_SectorErase(int sector)

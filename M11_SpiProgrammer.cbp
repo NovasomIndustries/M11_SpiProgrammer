@@ -46,12 +46,12 @@
 			<Add option="-ldl -Llibs" />
 			<Add library="libs/libMPSSE.so" />
 		</Linker>
-		<Unit filename="include/MT25QU256ABA.h" />
 		<Unit filename="include/M11_SpiProgrammer.h" />
+		<Unit filename="include/W25Q128FW.h" />
 		<Unit filename="include/WinTypes.h" />
 		<Unit filename="include/ftd2xx.h" />
 		<Unit filename="include/libMPSSE_spi.h" />
-		<Unit filename="src/MT25QU256ABA.c">
+		<Unit filename="src/W25Q128FW.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/ftdi_support.c">
